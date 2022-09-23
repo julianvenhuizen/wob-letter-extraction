@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from preprocessing import lemmatizer
+from preparation import lemmatizer
 
 
 def is_equal(a, b):
@@ -37,8 +37,7 @@ def jaccard_similarity(doc1, doc2):
         jsi = float(len(intersection)) / len(union)
     except ZeroDivisionError as zde:
         jsi = None
-    # Calculate Jaccard similarity score
-    # using length of intersection set divided by length of union set
+
     return jsi
 
 

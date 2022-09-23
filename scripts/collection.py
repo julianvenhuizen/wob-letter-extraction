@@ -3,6 +3,7 @@ import re
 import pandas as pd
 import tkinter.filedialog as tkfd
 
+
 def generate_index(path=None, max_records=0):
     """
     Generates an index of documents in a given directory.
@@ -21,6 +22,7 @@ def generate_index(path=None, max_records=0):
         data = pd.concat([data, df], ignore_index=True)
         
     return data
+
 
 def filter_and_clean_index(df):
     """
