@@ -11,61 +11,8 @@ import matplotlib.pyplot as plt
 from preprocessing import lemmatizer
 
 
-# def read_ground_truth(path_to_csv):
-#     gt = pd.read_csv(path_to_csv)
-    
-#     print(f'There are {len(gt[gt.letter == 0])} non-Wob documents found, we remove those.')
-#     gt = gt[gt.letter != 0]
-    
-#     print(f'There are {len(gt[gt.image_based == 1])} (partly) image-based documents found, we remove those.')
-#     gt = gt[gt.image_based != 1]
-    
-#     gt = gt.reset_index()
-    
-#     return gt
-
-
 def is_equal(a, b):
     return a == b
-
-
-# def evaluate_dates(df):
-#     df['request_date_equal'] = df.apply(lambda x: is_equal(x.request_date_x, x.request_date_y), axis=1)
-#     df['decision_date_equal'] = df.apply(lambda x: is_equal(x.decision_date_x, x.decision_date_y), axis=1)
-
-#     total = len(df)
-#     true_request_dates = df['request_date_equal'].value_counts().loc[True]
-#     true_decision_dates = df['decision_date_equal'].value_counts().loc[True]
-
-#     true_request_percentage = round((true_request_dates / total * 100), 2)
-#     true_decision_percentage = round((true_decision_dates / total * 100), 2)
-
-#     print(f'The correct request date percentage is {true_request_percentage}')
-#     print(f'The correct decision date percentage is {true_decision_percentage}')
-
-#     return df
-
-
-# def create_dataframe(matrix, tokens):
-#     doc_names = [f'doc_{i + 1}' for i, _ in enumerate(matrix)]
-#     df = pd.DataFrame(data=matrix, index=doc_names, columns=tokens)
-    
-#     return df
-
-
-# def compute_cosine_similarity(doc_1, doc_2):
-#     data = [doc_1, doc_2]
-#     nl_stopwords = stopwords.words('dutch') # get the stopwords in Dutch from NLTK
-
-#     if not data:
-#         result = None
-#     else:
-#         tfidf_vectorizer = TfidfVectorizer(stop_words=nl_stopwords)
-#         vector_matrix = tfidf_vectorizer.fit_transform(data)
-#         cosine_similarity_matrix = cosine_similarity(vector_matrix)
-#         result = cosine_similarity_matrix[0][1]
-    
-#     return result
 
 
 def jaccard_similarity(doc1, doc2):
@@ -93,39 +40,6 @@ def jaccard_similarity(doc1, doc2):
     # Calculate Jaccard similarity score
     # using length of intersection set divided by length of union set
     return jsi
-
-
-# def evaluate_decision_and_request(df):
-#     # replace empty strings with nan's
-#     df.decision_x.replace('', np.nan, inplace=True)
-#     df.decision_y.replace('', np.nan, inplace=True)
-#     df.request_x.replace('', np.nan, inplace=True)
-#     df.request_y.replace('', np.nan, inplace=True)
-
-#     pre_length = len(df)
-
-#     # remove the nan's
-#     df = df.dropna(subset=['request_x'])
-#     df = df.dropna(subset=['request_y'])
-#     df = df.dropna(subset=['decision_x'])
-#     df = df.dropna(subset=['decision_y'])
-
-#     post_length = len(df)
-
-#     df['lemm_req_x'] = df['request_x'].apply(lemmatizer)
-#     df['lemm_req_y'] = df['request_y'].apply(lemmatizer)
-#     df['lemm_dec_x'] = df['decision_x'].apply(lemmatizer)
-#     df['lemm_dec_y'] = df['decision_y'].apply(lemmatizer)
-
-#     print(f'We dropped {pre_length - post_length} rows because of NaN values.')
-
-#     # df['cos_sim_req'] = df.apply(lambda x: compute_cosine_similarity(x.request_x, x.request_y), axis=1)
-#     # df['cos_sim_dec'] = df.apply(lambda x: compute_cosine_similarity(x.decision_x, x.decision_y), axis=1)
-
-#     df['jacc_req'] = df.apply(lambda x: jaccard_similarity(x.lemm_req_x, x.lemm_req_y), axis=1)
-#     df['jacc_dec'] = df.apply(lambda x: jaccard_similarity(x.lemm_dec_x, x.lemm_dec_y), axis=1)
-
-#     return df
 
 
 def compute_precision(pred, true):
