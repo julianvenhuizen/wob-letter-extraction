@@ -61,7 +61,7 @@ jupyter notebook Feature_extraction_on_Wob_decision_letters.ipynb
 
 ## Extracting the features
 
-Every step of the feature extracting process is set out and explained in the ["Feature extraction on Wob decision letters" notebook](https://github.com/julianvenhuizen/wob-letter-extraction/blob/99eb23cc8749560ddafc3955172ce4a9a9c53524/Feature%20extraction%20on%20Wob%20decision%20letters.ipynb). 
+Every step of the feature extracting process is set out and explained in the ["Feature extraction on Wob decision letters" notebook](https://github.com/julianvenhuizen/wob-letter-extraction/blob/071cde0c5db78a025856abbb66456d742e699c09/Feature_extraction_on_Wob_decision_letters.ipynb). 
 
 To run the notebook, you will only need a folder containing machine-readable (text-based, not image-based) Wob decision letters in PDF. In addition to this, the classifyer can work as a safety-net, only extracting text from documents that contain a higher percentage of text than the set threshold.
 
