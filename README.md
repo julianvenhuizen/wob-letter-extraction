@@ -53,6 +53,11 @@ python -m nltk.downloader stopwords
 python -m spacy download nl_core_news_lg
 ```
 
+Now you can start up the notebook. Don't forget to select the correct kernel (venv):
+```
+# launch the notebook
+jupyter notebook Feature_extraction_on_Wob_decision_letters.ipynb
+```
 
 ## Extracting the features
 
