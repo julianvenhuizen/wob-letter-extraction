@@ -1,10 +1,10 @@
 import spacy
 import re
 
-from dates import get_dates
-from reqdec import get_request, get_decision
-from articles import get_articles
-from tables import get_table_pages, get_table_pages_no_rules
+from scripts.dates import get_dates
+from scripts.reqdec import get_request, get_decision
+from scripts.articles import get_articles
+from scripts.tables import get_table_pages, get_table_pages_no_rules
 
 
 def extract_features(df, nlp):

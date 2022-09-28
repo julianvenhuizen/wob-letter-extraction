@@ -1,6 +1,6 @@
 import pdfplumber
 import re
-from preparation import clean_list_of_text
+from scripts.preparation import clean_list_of_text
 
 
 def extract_tables(path):

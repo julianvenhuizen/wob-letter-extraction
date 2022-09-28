@@ -1,0 +1,9 @@
+lxml==4.9.1
+matplotlib==3.5.1
+nltk==3.7
+numpy==1.22.3
+pandas==1.4.2
+pdfplumber==0.7.1
+scikit_learn==1.1.2
+seaborn==0.11.2
+spacy==3.3.0

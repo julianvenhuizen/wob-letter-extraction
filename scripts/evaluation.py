@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from preparation import lemmatizer
+from scripts.preparation import lemmatizer
 
 
 def is_equal(a, b):
@@ -121,7 +121,7 @@ def evaluate_tables_no_rules(df):
     return df
 
 
-def evaluate(df1, df2, nlp):
+def evaluate(df1, df2, nlp, stopwords):
     df = pd.merge(df1, df2, how='right', on='file_name')
 
     print(f'There are {len(df[df.letter == 0])} non-Wob documents found, we remove those.')
@@ -137,10 +137,10 @@ def evaluate(df1, df2, nlp):
     df['request_date_equal'] = df.apply(lambda x: is_equal(x.request_date_x, x.request_date_y), axis=1)
     
     # # decision and request
-    df['lemm_dec_x'] = df['decision_x'].apply(lambda x: lemmatizer(x, nlp))
-    df['lemm_dec_y'] = df['decision_y'].apply(lambda x: lemmatizer(x, nlp))
-    df['lemm_req_x'] = df['request_x'].apply(lambda x: lemmatizer(x, nlp))
-    df['lemm_req_y'] = df['request_y'].apply(lambda x: lemmatizer(x, nlp))
+    df['lemm_dec_x'] = df['decision_x'].apply(lambda x: lemmatizer(x, nlp, stopwords))
+    df['lemm_dec_y'] = df['decision_y'].apply(lambda x: lemmatizer(x, nlp, stopwords))
+    df['lemm_req_x'] = df['request_x'].apply(lambda x: lemmatizer(x, nlp, stopwords))
+    df['lemm_req_y'] = df['request_y'].apply(lambda x: lemmatizer(x, nlp, stopwords))
 
     df['jacc_req'] = df.apply(lambda x: jaccard_similarity(x.lemm_req_x, x.lemm_req_y), axis=1)
     df['jacc_dec'] = df.apply(lambda x: jaccard_similarity(x.lemm_dec_x, x.lemm_dec_y), axis=1)

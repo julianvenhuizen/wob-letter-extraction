@@ -2,7 +2,7 @@ import pdfplumber
 import re
 import spacy
 from nltk.corpus import stopwords
-from preparation import clean_text, split_in_sentences
+from scripts.preparation import clean_text, split_in_sentences
 
 
 def from_dict_to_sentences(dictionary):
@@ -84,7 +84,7 @@ def get_decision(text):
 
 
 def get_request(text):
-    txt_file = open("dutch_prepositions.txt", "r")
+    txt_file = open("./resources/dutch_prepositions.txt", "r")
     file_content = txt_file.read()
     dutch_prepositions = file_content.split("\n")
     dutch_prepositions = dutch_prepositions[:-1] # remove final (empty preposition)
