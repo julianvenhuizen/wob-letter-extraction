@@ -95,7 +95,11 @@ def get_request(text):
     subtexts = [k + ' ' + d for d in dutch_prepositions for k in keywords]
       
     request_list = []
-    sentences = split_in_sentences(text[0])
+
+    try:
+        sentences = split_in_sentences(text[0])
+    except:
+        pass
         
     try:
         for sentence in sentences:

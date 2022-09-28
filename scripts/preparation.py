@@ -1,4 +1,5 @@
 from nltk.corpus import stopwords
+import pandas as pd
 import pdfplumber
 import spacy
 import re
@@ -18,7 +19,6 @@ def extract_text(file_name, threshold=0.03):
     try:
         doc = pdfplumber.open(file_name)
         pages = doc.pages
-        num_pages = len(doc.pages)
 
         for page_number, page in enumerate(pages):
             total_page_area = total_page_area + abs(page.width * page.height)
@@ -91,11 +91,16 @@ def split_in_sentences(text):
 
 def lemmatizer(text, nlp, stopwords):
     """
-    Simple lemmatizer using spaC and dutch stopword list.
+    Simple lemmatizer using spaCy and NLTK's Dutch stopword list.
     """
-    doc = nlp(text)
-    lemmas = [t.lemma_ for t in doc if t.lemma_ not in stopwords]
+    lemmas = []
     
+    try:
+        doc = nlp(text)
+        lemmas = [t.lemma_ for t in doc if t.lemma_ not in stopwords]
+    except:
+        pass
+
     return lemmas
 
 
@@ -108,3 +113,4 @@ def preprocess(df, threshold):
     df['clean_text'] = df['text'].apply(lambda x: clean_list_of_text(x))
 
     return df
+

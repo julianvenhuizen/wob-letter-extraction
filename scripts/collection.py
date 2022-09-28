@@ -32,5 +32,5 @@ def filter_and_clean_index(df):
     df = df[df['file_name'] != '.DS_Store'] # remove the .DS_Store files from the dataframe
     df = df[df['file_name'].str.contains('|'.join(['bijlage', 'bijlagen']), case=False)==False] # remove the bijlagen
     df = df.reset_index(drop=True)
-    
+
     return df
