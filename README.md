@@ -24,7 +24,7 @@ virtualenv venv
 source venv/bin/activate
 ```
 
-(Optionally) When using a virtual environment, install ```ipykernel``` for Jupyter.
+(Optionally) When using a virtual environment, install ```ipykernel``` for Jupyter:
 
 ```
 # install ipykernel
