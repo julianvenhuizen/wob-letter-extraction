@@ -13,6 +13,47 @@ There are six features that are commonly found in the letters, namely: the docum
     </figcaption>
 </figure>
 
+## Installing
+
+(Optionally) Install ```virtualenv``` and create a virtual environment to keep things clean:
+
+```
+# create a virtual environment
+pip install virtualenv 
+virtualenv venv
+source venv/bin/activate
+```
+
+(Optionally) When using a virtual environment, install ```ipykernel``` for Jupyter.
+
+```
+# install ipykernel
+pip install ipykernel
+python -m ipykernel install --user --name=venv
+```
+
+The recommended way to install the repo is shown below, which should install and handle all dependencies:
+
+```
+# clone the repo
+git clone https://github.com/julianvenhuizen/wob-letter-extraction.git
+cd wob-letter-extraction
+
+# install python dependencies:
+pip install -r requirements.txt
+```
+
+You will also need to download the NLTK stopwords corpus and the [spaCy model](https://spacy.io/usage/models). For efficiency you can download the small model: ```nl_core_news_sm```. However, for accuracy and to reproduce the results from the thesis, you are advised to download the large model:  ```nl_core_news_lg```.
+
+```
+# download NLTK stopwords
+python -m nltk.downloader stopwords
+
+# download spaCy model
+python -m spacy download nl_core_news_lg
+```
+
+
 ## Extracting the features
 
 Every step of the feature extracting process is set out and explained in the ["Feature extraction on Wob decision letters" notebook](https://github.com/julianvenhuizen/wob-letter-extraction/blob/99eb23cc8749560ddafc3955172ce4a9a9c53524/Feature%20extraction%20on%20Wob%20decision%20letters.ipynb). 
