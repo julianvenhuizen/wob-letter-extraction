@@ -5,17 +5,13 @@ import spacy
 import re
 
 
-def extract_text(file_name, threshold=0.03):
-    """
-    Calculates the percentage of document that is covered by (searchable) text.
-    If the returned percentage of text is very low, the document is most likely a scanned PDF.
-    Extracts the text of the documents above a given threshold. The default threshold is 3%.
-
-    """
+def open_pdf(file_name, threshold=0.03):
     total_page_area = 0.0
     total_text_area = 0.0
     text = []
-    
+    tables_list = []
+    tables_dict = {}
+
     try:
         doc = pdfplumber.open(file_name)
         pages = doc.pages
@@ -25,22 +21,66 @@ def extract_text(file_name, threshold=0.03):
             text_area = 0.0
             i = 0
             for i in range(len(page.chars)):
-                text_area = text_area + abs(page.chars[i]['width'] * page.chars[i]['height'])                
+                text_area = text_area + abs(page.chars[i]['width'] * page.chars[i]['height'])
             total_text_area = total_text_area + text_area
             i += 1
-        
+
         percentage = total_text_area / total_page_area
         if percentage >= threshold:
-            for page in pages:
+            for i in enumerate(pages):
+                j = i[0]
+                page = pages[j]
                 text.append(page.extract_text())
+                tables_list.append(page.find_tables(
+                    table_settings={
+                        'vertical_strategy': 'lines',
+                        'horizontal_strategy': 'lines'
+                    }
+                ))
+                tables_dict[j] = tables_list[j]
         else:
             text = None
+            tables_dict = None
 
         doc.close()
-        return text
-        
+
+        tables = {k: v for k, v in tables_dict.items() if v}
+        if not any(tables):
+            tables = None
+        return text, tables
+
     except Exception as e:
-        print(f"The following exception: {e}, occured at {file_name}")
+        print(f"The following exception: {e}, occurred at {file_name}")
+        return None
+
+
+def open_pdf_no_classifier(file_name):
+    text = []
+    tables_list = []
+    tables_dict = {}
+
+    try:
+        doc = pdfplumber.open(file_name)
+        pages = doc.pages
+
+        for i in enumerate(pages):
+            j = i[0]
+            page = pages[j]
+            text.append(page.extract_text())
+            tables_list.append(page.find_tables(
+                table_settings={
+                    'vertical_strategy': 'lines',
+                    'horizontal_strategy': 'lines'
+                }
+            ))
+            tables_dict[j] = tables_list[j]
+        doc.close()
+        tables = {k: v for k, v in tables_dict.items() if v}
+        if not any(tables):
+            tables = None
+        return text, tables
+    except Exception as e:
+        print(f"The following exception: {e}, occurred at {file_name}")
         return None
 
 
@@ -94,7 +134,7 @@ def lemmatizer(text, nlp, stopwords):
     Simple lemmatizer using spaCy and NLTK's Dutch stopword list.
     """
     lemmas = []
-    
+
     try:
         doc = nlp(text)
         lemmas = [t.lemma_ for t in doc if t.lemma_ not in stopwords]
@@ -104,13 +144,16 @@ def lemmatizer(text, nlp, stopwords):
     return lemmas
 
 
-def preprocess(df, threshold):
+def preprocess(df, classifier=True, threshold=0.03):
     """
     Apply preprocessing functions.
     """
+    # df['text'] = df['path'].apply(lambda x: extract_text(x, threshold))
+    if classifier is True:
+        df['text'], df['tables'] = zip(*df['path'].apply(lambda x: open_pdf(x, threshold)))
+    else:
+        df['text'], df['tables'] = zip(*df['path'].apply(lambda x: open_pdf_no_classifier(x)))
 
-    df['text'] = df['path'].apply(lambda x: extract_text(x, threshold))
     df['clean_text'] = df['text'].apply(lambda x: clean_list_of_text(x))
 
     return df
-

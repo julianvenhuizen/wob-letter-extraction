@@ -16,7 +16,7 @@ def extract_features(df, nlp):
 	df['request'] = df['clean_text'].apply(get_request)
 	df['decision'] = df['clean_text'].apply(get_decision)
 	df['articles'] = df['clean_text'].apply(get_articles)
-	df['table_pages'] = df.apply(lambda x: get_table_pages(x.path, x.clean_text), axis=1)
-	df['table_pages_no_rules'] = df.apply(lambda x: get_table_pages_no_rules(x.path, x.clean_text), axis=1)
+	df['table_pages'] = df.apply(lambda x: get_table_pages(x.tables, x.clean_text), axis=1)
+	df['table_pages_no_rules'] = df.apply(lambda x: get_table_pages_no_rules(x.tables, x.clean_text), axis=1)
 
 	return df
